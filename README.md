@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="https://github.com/hmqgg/Jotaro"><img src="https://github.com/hmqgg/Jotaro/raw/master/docs/header.png" alt="JotaroLogo" width="200"></a>
+  <a href="https://github.com/hmqgg/Jotaro"><img src="https://github.com/hmqgg/Jotaro/raw/develop/docs/header.png" alt="JotaroLogo" width="200"></a>
   <br>
   Jotaro
   <br>
