@@ -1,4 +1,4 @@
-﻿using Jotaro.Repository.Entities;
+﻿using Jotaro.Entity.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading;

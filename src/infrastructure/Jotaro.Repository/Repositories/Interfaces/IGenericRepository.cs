@@ -1,4 +1,4 @@
-﻿using Jotaro.Repository.Entities;
+﻿using Jotaro.Entity.Interfaces;
 
 namespace Jotaro.Repository.Repositories.Interfaces
 {

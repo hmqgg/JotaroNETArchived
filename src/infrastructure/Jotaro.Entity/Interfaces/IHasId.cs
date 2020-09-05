@@ -1,4 +1,4 @@
-﻿namespace Jotaro.Repository.Entities
+﻿namespace Jotaro.Entity.Interfaces
 {
     public interface IHasId<out TId>
     {

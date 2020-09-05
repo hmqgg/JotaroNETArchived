@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jotaro.Repository", "src\in
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infra_tests", "infra_tests", "{C0745E40-033E-43EE-805D-6A51DE3A1E58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jotaro.Repository.Tests", "tests\infra_tests\Jotaro.Repository.Tests\Jotaro.Repository.Tests.csproj", "{58DA4F97-4D5C-4D20-BB55-099E602F4CAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jotaro.Repository.Tests", "tests\infra_tests\Jotaro.Repository.Tests\Jotaro.Repository.Tests.csproj", "{58DA4F97-4D5C-4D20-BB55-099E602F4CAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jotaro.Entity", "src\infrastructure\Jotaro.Entity\Jotaro.Entity.csproj", "{DEC9DB20-5A18-49B9-8921-1D9FCB542582}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,10 @@ Global
 		{58DA4F97-4D5C-4D20-BB55-099E602F4CAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58DA4F97-4D5C-4D20-BB55-099E602F4CAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58DA4F97-4D5C-4D20-BB55-099E602F4CAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEC9DB20-5A18-49B9-8921-1D9FCB542582}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEC9DB20-5A18-49B9-8921-1D9FCB542582}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEC9DB20-5A18-49B9-8921-1D9FCB542582}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEC9DB20-5A18-49B9-8921-1D9FCB542582}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +88,7 @@ Global
 		{8117787E-2CBB-429E-8DCB-4E7E9E834198} = {D212924D-D91E-486D-9F2F-B850C8C574B7}
 		{C0745E40-033E-43EE-805D-6A51DE3A1E58} = {C68D7052-59BC-465F-A107-8721C5918666}
 		{58DA4F97-4D5C-4D20-BB55-099E602F4CAC} = {C0745E40-033E-43EE-805D-6A51DE3A1E58}
+		{DEC9DB20-5A18-49B9-8921-1D9FCB542582} = {D212924D-D91E-486D-9F2F-B850C8C574B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C55AB795-84E9-4376-8F57-204D74024690}

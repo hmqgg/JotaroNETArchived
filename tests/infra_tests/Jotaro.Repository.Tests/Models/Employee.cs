@@ -1,4 +1,4 @@
-﻿using Jotaro.Repository.Entities;
+﻿using Jotaro.Entity.Interfaces;
 using System;
 
 namespace Jotaro.Repository.Tests.Models

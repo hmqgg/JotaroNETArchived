@@ -1,4 +1,4 @@
-﻿using Jotaro.Repository.Entities;
+﻿using Jotaro.Entity.Interfaces;
 using Jotaro.Repository.Paginate;
 using Jotaro.Repository.Repositories.Interfaces;
 using System;
