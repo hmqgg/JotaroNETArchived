@@ -14,16 +14,7 @@ namespace Jotaro.Repository.Paginate
         public static async Task<IPaginate<T>> ToPaginateAsync<T>(this IQueryable<T> source, int size, int index = 0,
             CancellationToken cancellationToken = default)
         {
-            // Size must be greater than 0.
-            if (size < 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(size), "Page size must be greater than 0");
-            }
-
-            if (index < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index), "Page index must be greater than 0");
-            }
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionWhenCheckFailed(size, index);
 
             // Count.
             var totalItemsCount = source.Count();
@@ -45,16 +36,7 @@ namespace Jotaro.Repository.Paginate
             Func<TEntity, TResult> conversion, int size, int index = 0,
             CancellationToken cancellationToken = default)
         {
-            // Size must be greater than 0.
-            if (size < 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(size), "Page size must be greater than 0");
-            }
-
-            if (index < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index), "Page index must be greater than 0");
-            }
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionWhenCheckFailed(size, index);
 
             var totalItemsCount = source.Count();
             var totalPagesCount = (int)Math.Ceiling(totalItemsCount / (double)size);
@@ -63,38 +45,60 @@ namespace Jotaro.Repository.Paginate
             index = Math.Min(index, totalPagesCount - 1);
 
             // Actual query items.
-            var items = source.Skip(index * size).Take(size).AsAsyncEnumerable();
-            var results = new List<TResult>(size);
+            var items = await source.Skip(index * size).Take(size).ToListAsync(conversion, cancellationToken).ConfigureAwait(false);
 
-            await foreach (var item in items.WithCancellation(cancellationToken))
-            {
-                var result = conversion(item);
-                results.Add(result);
-            }
-
-            return new ConversionPaginate<TEntity, TResult>(index, size, results, results.Count, totalPagesCount, totalItemsCount);
+            return new ConversionPaginate<TEntity, TResult>(index, size, items, items.Count, totalPagesCount, totalItemsCount);
         }
 
         private static async Task<List<TSource>> ToListAsync<TSource>(this IQueryable<TSource> source,
             CancellationToken cancellationToken = default)
         {
             var list = new List<TSource>();
-            await foreach (var element in source.AsAsyncEnumerable().WithCancellation(cancellationToken))
+
+            if (source is IAsyncEnumerable<TSource> asyncEnumerable)
             {
-                list.Add(element);
+                await foreach (var element in asyncEnumerable.WithCancellation(cancellationToken))
+                {
+                    list.Add(element);
+                }
+            }
+            else
+            {
+                // Fallback to sync.
+                foreach (var element in source)
+                {
+                    list.Add(element);
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
             }
 
             return list;
         }
 
-        private static IAsyncEnumerable<TSource> AsAsyncEnumerable<TSource>(this IEnumerable<TSource> source)
+        private static async Task<List<TResult>> ToListAsync<TSource, TResult>(this IQueryable<TSource> source,
+            Func<TSource, TResult> conversion,
+            CancellationToken cancellationToken = default)
         {
+            var list = new List<TResult>();
+
             if (source is IAsyncEnumerable<TSource> asyncEnumerable)
             {
-                return asyncEnumerable;
+                await foreach (var element in asyncEnumerable.WithCancellation(cancellationToken))
+                {
+                    list.Add(conversion(element));
+                }
+            }
+            else
+            {
+                // Fallback to sync.
+                foreach (var element in source)
+                {
+                    list.Add(conversion(element));
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
             }
 
-            throw new InvalidOperationException("Invalid cast operation to convert IEnumerable<TSource> to IAsyncEnumerable<TSource>");
+            return list;
         }
     }
 }

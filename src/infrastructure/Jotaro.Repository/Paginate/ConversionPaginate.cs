@@ -36,16 +36,7 @@ namespace Jotaro.Repository.Paginate
 
         internal ConversionPaginate(IEnumerable<TEntity> source, Func<TEntity, TResult> conversion, int size, int index)
         {
-            // Size must be greater than 0.
-            if (size < 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(size), "Page size must be greater than 0");
-            }
-
-            if (index < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index), "Page index must be greater than 0");
-            }
+            ThrowHelper.ThrowArgumentOutOfRangeExceptionWhenCheckFailed(size, index);
 
             if (source is IQueryable<TEntity> query)
             {
