@@ -1,16 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Jotaro.Repository.Paginate.EFCore
+namespace Jotaro.Repository.Paginate
 {
-    public static class EfPaginateExtensions
+    public static class PaginateAsyncExtensions
     {
         /// <summary>
-        /// For EFCore query only.
+        /// For IQueryable|IAsyncEnumerable only.
         /// </summary>
         public static async Task<IPaginate<T>> ToPaginateAsync<T>(this IQueryable<T> source, int size, int index = 0,
             CancellationToken cancellationToken = default)
@@ -26,7 +25,8 @@ namespace Jotaro.Repository.Paginate.EFCore
                 throw new ArgumentOutOfRangeException(nameof(index), "Page index must be greater than 0");
             }
 
-            var totalItemsCount = await source.CountAsync(cancellationToken).ConfigureAwait(false);
+            // Count.
+            var totalItemsCount = source.Count();
             var totalPagesCount = (int)Math.Ceiling(totalItemsCount / (double)size);
 
             // Fix page index.
@@ -39,7 +39,7 @@ namespace Jotaro.Repository.Paginate.EFCore
         }
 
         /// <summary>
-        /// For EFCore query only.
+        /// For IQueryable|IAsyncEnumerable only.
         /// </summary>
         public static async Task<IPaginate<TResult>> ToPaginateAsync<TEntity, TResult>(this IQueryable<TEntity> source,
             Func<TEntity, TResult> conversion, int size, int index = 0,
@@ -56,7 +56,7 @@ namespace Jotaro.Repository.Paginate.EFCore
                 throw new ArgumentOutOfRangeException(nameof(index), "Page index must be greater than 0");
             }
 
-            var totalItemsCount = await source.CountAsync(cancellationToken).ConfigureAwait(false);
+            var totalItemsCount = source.Count();
             var totalPagesCount = (int)Math.Ceiling(totalItemsCount / (double)size);
 
             // Fix page index.
@@ -73,6 +73,28 @@ namespace Jotaro.Repository.Paginate.EFCore
             }
 
             return new ConversionPaginate<TEntity, TResult>(index, size, results, results.Count, totalPagesCount, totalItemsCount);
+        }
+
+        private static async Task<List<TSource>> ToListAsync<TSource>(this IQueryable<TSource> source,
+            CancellationToken cancellationToken = default)
+        {
+            var list = new List<TSource>();
+            await foreach (var element in source.AsAsyncEnumerable().WithCancellation(cancellationToken))
+            {
+                list.Add(element);
+            }
+
+            return list;
+        }
+
+        private static IAsyncEnumerable<TSource> AsAsyncEnumerable<TSource>(this IEnumerable<TSource> source)
+        {
+            if (source is IAsyncEnumerable<TSource> asyncEnumerable)
+            {
+                return asyncEnumerable;
+            }
+
+            throw new InvalidOperationException("Invalid cast operation to convert IEnumerable<TSource> to IAsyncEnumerable<TSource>");
         }
     }
 }
