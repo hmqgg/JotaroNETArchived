@@ -17,7 +17,7 @@ namespace Jotaro.Repository.Repositories.Interfaces
 
         IQueryable<T> FindBy(Expression<Func<T, bool>>? predicate = null);
 
-        Task<IList<T>> FindByAsync(Expression<Func<T, bool>>? predicate = null,
+        Task<List<T>> FindByAsync(Expression<Func<T, bool>>? predicate = null,
             Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
             CancellationToken cancellationToken = default);
 

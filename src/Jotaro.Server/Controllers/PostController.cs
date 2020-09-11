@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
-namespace Jotaro.Controllers
+namespace Jotaro.Server.Controllers
 {
     [ApiController]
     [Route("api/post")]

@@ -52,7 +52,7 @@ namespace Jotaro.Repository.Tests
         {
             ICreateRepository<Employee> repository = new InMemoryRepository<Employee, Guid>(fixture.Employees);
 
-            var number = await repository.InsertAsync(tester1, tester2);
+            var number = await repository.InsertRangeAsync(tester1, tester2);
 
             Assert.Equal(2, number);
         }

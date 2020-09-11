@@ -55,7 +55,7 @@ namespace Jotaro.Repository.Tests
             var entity2 = values[index2];
             var expected = index1 == index2 ? 1 : 2;
 
-            var deleted = await deleteRepo.DeleteAsync(entity1, entity2);
+            var deleted = await deleteRepo.DeleteRangeAsync(entity1, entity2);
             var actual = fixture.Employees.Count;
 
             Assert.Equal(expected, deleted);
@@ -70,7 +70,7 @@ namespace Jotaro.Repository.Tests
             var entity2 = values[index2];
             var expected = index1 == index2 ? 1 : 2;
 
-            var deleted = await deleteRepo.DeleteAsync(entity1, entity2);
+            var deleted = await deleteRepo.DeleteRangeAsync(entity1, entity2);
             var actual = fixture.Employees.Count;
 
             Assert.Equal(expected, deleted);

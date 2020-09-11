@@ -27,7 +27,14 @@ namespace Jotaro.Repository.Tests
         {
             var expected = Guid.NewGuid().ToString();
 
-            await updateRepo.UpdateAsync(Guid.Empty, e => e.Name = expected);
+            await updateRepo.UpdateAsync(Guid.Empty, e => new Employee
+            {
+                Id = e.Id,
+                Age = e.Age,
+                IsDeleted = e.IsDeleted,
+                Name = e.Name,
+                QNumber = e.QNumber
+            });
 
             Assert.All(fixture.Employees.Values, e => Assert.NotEqual(expected, e.Name));
         }
@@ -38,7 +45,14 @@ namespace Jotaro.Repository.Tests
             var entity = fixture.Employees.Values.ToList()[index];
             var expected = Guid.NewGuid().ToString();
 
-            await updateRepo.UpdateAsync(entity.Id, e => e.Name = expected);
+            await updateRepo.UpdateAsync(entity.Id, e => new Employee
+            {
+                Id = e.Id,
+                Age = e.Age,
+                IsDeleted = e.IsDeleted,
+                Name = expected,
+                QNumber = e.QNumber
+            });
 
             Assert.Contains(fixture.Employees.Values, e => e.Name == expected);
         }
@@ -75,7 +89,7 @@ namespace Jotaro.Repository.Tests
 
             entity1.Name = expected;
             entity2.Name = expected;
-            var updated = await updateRepo.UpdateAsync(entity1, entity2);
+            var updated = await updateRepo.UpdateRangeAsync(entity1, entity2);
             var actual1 = fixture.Employees[entity1.Id];
             var actual2 = fixture.Employees[entity2.Id];
 

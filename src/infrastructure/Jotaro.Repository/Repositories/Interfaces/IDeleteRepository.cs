@@ -9,13 +9,13 @@ namespace Jotaro.Repository.Repositories.Interfaces
     {
         Task DeleteAsync(TId id, CancellationToken cancellationToken = default);
 
-        ValueTask<int> DeleteAsync(params TId[] ids);
+        ValueTask<int> DeleteRangeAsync(params TId[] ids);
 
         ValueTask<int> DeleteRangeAsync(IEnumerable<TId> ids, CancellationToken cancellationToken = default);
 
         Task DeleteAsync(T entity, CancellationToken cancellationToken = default);
 
-        ValueTask<int> DeleteAsync(params T[] entities);
+        ValueTask<int> DeleteRangeAsync(params T[] entities);
 
         ValueTask<int> DeleteRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
     }

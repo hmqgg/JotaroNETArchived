@@ -10,5 +10,9 @@ namespace Jotaro.Repository.Repositories.Interfaces
         ValueTask<int> UpdateByAsync(Action<T> action,
             Expression<Func<T, bool>>? predicate = null,
             CancellationToken cancellationToken = default);
+
+        ValueTask<int> UpdateByAsync(Expression<Func<T, T>> extend,
+            Expression<Func<T, bool>>? predicate = null,
+            CancellationToken cancellationToken = default);
     }
 }

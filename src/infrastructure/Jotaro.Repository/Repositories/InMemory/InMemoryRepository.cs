@@ -14,8 +14,7 @@ namespace Jotaro.Repository.Repositories.InMemory
     /// <summary>
     /// Singleton, for testing purpose only.
     /// </summary>
-    public class InMemoryRepository<T, TId> : IGenericRepository<T, TId>, ISoftDeleteRepository<T>
-        where T : class, IHasId<TId>, IHasSoftDelete
+    public class InMemoryRepository<T, TId> : IGenericRepository<T, TId> where T : class, IHasId<TId>
     {
         private readonly ConcurrentDictionary<TId, T> dictionary;
 
@@ -35,7 +34,7 @@ namespace Jotaro.Repository.Repositories.InMemory
             return Task.CompletedTask;
         }
 
-        public ValueTask<int> InsertAsync(params T[] entities)
+        public ValueTask<int> InsertRangeAsync(params T[] entities)
         {
             var result = 0;
 
@@ -98,7 +97,7 @@ namespace Jotaro.Repository.Repositories.InMemory
             return queryable;
         }
 
-        public Task<IList<T>> FindByAsync(Expression<Func<T, bool>>? predicate = null,
+        public Task<List<T>> FindByAsync(Expression<Func<T, bool>>? predicate = null,
             Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
             CancellationToken cancellationToken = default)
         {
@@ -114,7 +113,7 @@ namespace Jotaro.Repository.Repositories.InMemory
                 queryable = orderBy(queryable);
             }
 
-            return Task.FromResult<IList<T>>(queryable.ToList());
+            return Task.FromResult(queryable.ToList());
         }
 
         public ValueTask<T?> FirstOrDefaultAsync(Expression<Func<T, bool>>? predicate = null,
@@ -196,21 +195,46 @@ namespace Jotaro.Repository.Repositories.InMemory
                 queryable = queryable.Where(predicate);
             }
 
-            var list = queryable.ToList();
             var i = 0;
-            for (; i < list.Count; i++)
+            foreach (var item in queryable)
             {
-                action(list[i]);
+                i++;
+                action(item);
             }
 
             return new ValueTask<int>(i);
         }
 
-        public Task UpdateAsync(TId id, Action<T> action, CancellationToken cancellationToken = default)
+        public ValueTask<int> UpdateByAsync(Expression<Func<T, T>> extend,
+            Expression<Func<T, bool>>? predicate = null,
+            CancellationToken cancellationToken = default)
+        {
+            var queryable = dictionary.Values.AsQueryable();
+
+            if (predicate != null)
+            {
+                queryable = queryable.Where(predicate);
+            }
+
+            var func = extend.Compile();
+
+            var i = 0;
+            foreach (var item in queryable)
+            {
+                if (dictionary.TryUpdate(item.Id, func(item), item))
+                {
+                    i++;
+                }
+            }
+
+            return new ValueTask<int>(i);
+        }
+
+        public Task UpdateAsync(TId id, Expression<Func<T, T>> extend, CancellationToken cancellationToken = default)
         {
             if (dictionary.TryGetValue(id, out var entity))
             {
-                action(entity);
+                dictionary[id] = extend.Compile().Invoke(entity);
             }
 
             return Task.CompletedTask;
@@ -226,7 +250,7 @@ namespace Jotaro.Repository.Repositories.InMemory
             return Task.CompletedTask;
         }
 
-        public ValueTask<int> UpdateAsync(params T[] entities)
+        public ValueTask<int> UpdateRangeAsync(params T[] entities)
         {
             var result = 0;
 
@@ -287,7 +311,7 @@ namespace Jotaro.Repository.Repositories.InMemory
             return Task.CompletedTask;
         }
 
-        public ValueTask<int> DeleteAsync(params TId[] ids)
+        public ValueTask<int> DeleteRangeAsync(params TId[] ids)
         {
             var result = 0;
 
@@ -330,7 +354,7 @@ namespace Jotaro.Repository.Repositories.InMemory
             return Task.CompletedTask;
         }
 
-        public ValueTask<int> DeleteAsync(params T[] entities)
+        public ValueTask<int> DeleteRangeAsync(params T[] entities)
         {
             var result = 0;
 
@@ -358,52 +382,6 @@ namespace Jotaro.Repository.Repositories.InMemory
             {
                 if (dictionary.Remove(entity.Id, out _))
                 {
-                    Interlocked.Increment(ref result);
-                }
-
-                po.CancellationToken.ThrowIfCancellationRequested();
-            });
-
-            return new ValueTask<int>(result);
-        }
-
-        public Task SoftDeleteAsync(T entity, CancellationToken cancellationToken = default)
-        {
-            entity.IsDeleted = true;
-            return UpdateAsync(entity, cancellationToken);
-        }
-
-        public ValueTask<int> SoftDeleteAsync(params T[] entities)
-        {
-            var result = 0;
-
-            Parallel.ForEach(entities, entity =>
-            {
-                if (dictionary.TryGetValue(entity.Id, out var actualEntity))
-                {
-                    actualEntity.IsDeleted = true;
-                    Interlocked.Increment(ref result);
-                }
-            });
-
-            return new ValueTask<int>(result);
-        }
-
-        public ValueTask<int> SoftDeleteRangeAsync(IEnumerable<T> entities,
-            CancellationToken cancellationToken = default)
-        {
-            var result = 0;
-
-            var po = new ParallelOptions
-            {
-                CancellationToken = cancellationToken
-            };
-
-            Parallel.ForEach(entities, po, entity =>
-            {
-                if (dictionary.TryGetValue(entity.Id, out var actualEntity))
-                {
-                    actualEntity.IsDeleted = true;
                     Interlocked.Increment(ref result);
                 }
 

@@ -2,17 +2,21 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
+        <Nullable>enable</Nullable>
         <UserSecretsId>1586590d-ee6d-4759-af78-0d48f3755f20</UserSecretsId>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="5.0.0-preview.8.20414.8" />
+        <PackageReference Include="LiteDB" Version="5.0.9" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server"
+                          Version="5.0.0-preview.8.20414.8" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0-preview.8.20407.4" />
         <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Jotaro.Blazor\Jotaro.Blazor.csproj" />
+        <ProjectReference Include="..\infrastructure\Jotaro.Repository\Jotaro.Repository.csproj" />
         <ProjectReference Include="..\Jotaro.Shared\Jotaro.Shared.csproj" />
     </ItemGroup>
 

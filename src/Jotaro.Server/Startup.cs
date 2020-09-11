@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-namespace Jotaro
+
+namespace Jotaro.Server
 {
     public class Startup
     {
@@ -17,7 +18,6 @@ namespace Jotaro
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
         }
 
@@ -30,7 +30,7 @@ namespace Jotaro
             }
 
             app.UseHttpsRedirection();
-            app.UseBlazorFrameworkFiles();
+            //app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -40,7 +40,7 @@ namespace Jotaro
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapFallbackToFile("index.html");
+                //endpoints.MapFallbackToFile("index.html");
             });
         }
     }

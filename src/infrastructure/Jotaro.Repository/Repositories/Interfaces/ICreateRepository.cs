@@ -8,7 +8,7 @@ namespace Jotaro.Repository.Repositories.Interfaces
     {
         Task InsertAsync(T entity, CancellationToken cancellationToken = default);
 
-        ValueTask<int> InsertAsync(params T[] entities);
+        ValueTask<int> InsertRangeAsync(params T[] entities);
 
         ValueTask<int> InsertRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
     }
