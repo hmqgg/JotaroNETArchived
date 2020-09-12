@@ -72,7 +72,7 @@ namespace Jotaro.Server.Repositories.LiteDb
         public ValueTask<int> DeleteRangeAsync(IEnumerable<TId> ids, CancellationToken cancellationToken = default)
         {
             // It depends LiteDB to translate .Contains().
-            var idList = ids.ToList();
+            var idList = ids.ToArray();
             return new ValueTask<int>(collection.DeleteMany(x => idList.Contains(x.Id)));
         }
 
@@ -87,7 +87,7 @@ namespace Jotaro.Server.Repositories.LiteDb
         {
             // Dangerous if unable to ensure uniqueness with Key.
             // It depends LiteDB to translate .Contains().
-            var idList = entities.Select(x => x.Id).ToList();
+            var idList = entities.Select(x => x.Id).ToArray();
             return new ValueTask<int>(collection.DeleteMany(x => idList.Contains(x.Id)));
         }
 
@@ -95,7 +95,7 @@ namespace Jotaro.Server.Repositories.LiteDb
         {
             // Dangerous if unable to ensure uniqueness with Key.
             // It depends LiteDB to translate .Contains().
-            var idList = entities.Select(x => x.Id).ToList();
+            var idList = entities.Select(x => x.Id).ToArray();
             return new ValueTask<int>(collection.DeleteMany(x => idList.Contains(x.Id)));
         }
     }

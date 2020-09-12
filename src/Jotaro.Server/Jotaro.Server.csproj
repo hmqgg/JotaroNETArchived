@@ -13,6 +13,7 @@
                           Version="5.0.0-preview.8.20414.8" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0-preview.8.20407.4" />
         <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
+        <PackageReference Include="MongoDB.Driver" Version="2.11.2" />
     </ItemGroup>
 
     <ItemGroup>
