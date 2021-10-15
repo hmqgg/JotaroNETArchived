@@ -42,7 +42,6 @@ public record EventSet : EnumRecord<EventSet, (EventType Type, string DetailType
     public static readonly EventSet MessageGroup = NewMessage("group", typeof(EventMessageGroup));
 
     public static readonly EventSet Meta = NewMeta(string.Empty, typeof(EventMeta));
-    public static readonly EventSet MetaLifecycle = NewMeta("lifecycle", typeof(EventMetaLifecycle));
     public static readonly EventSet MetaHeartbeat = NewMeta("heartbeat", typeof(EventMetaHeartbeat));
 
     public static readonly EventSet Notice = NewNotice(string.Empty, typeof(EventNotice));

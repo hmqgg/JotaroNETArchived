@@ -15,6 +15,7 @@ public record SegmentUnknown : SegmentData;
 [MessagePackObject]
 public record SegmentText([property: JsonPropertyName("text"), Key("text")] string Text) : SegmentData;
 
+// TODO: Segment with `file_id`.
 [MessagePackObject]
 public record SegmentImage([property: JsonPropertyName("file_id"), Key("file_id")] string FileId) : SegmentData;
 
