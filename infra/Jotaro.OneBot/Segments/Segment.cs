@@ -31,10 +31,10 @@ public sealed record Segment
             }
 
             // Cache it.
-            sTypeCache.Add(dataClassType, type!);
+            sTypeCache.Add(dataClassType, type);
         }
 
-        Type = type!;
+        Type = type;
         Data = data;
     }
 

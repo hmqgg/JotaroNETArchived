@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using Jotaro.OneBot.Segments;
 
-namespace Jotaro.OneBot.Events.Messages;
+namespace Jotaro.OneBot.Events;
 
 public record EventMessage(string SubType, string Uuid, string SelfId, string Platform, DateTimeOffset Time) : Event(
     EventSet.Message, SubType, Uuid, SelfId, Platform, Time)

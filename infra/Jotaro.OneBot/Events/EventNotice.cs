@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Jotaro.OneBot.Events.Notices;
+namespace Jotaro.OneBot.Events;
 
 public record EventNotice(string SubType, string Uuid, string SelfId, string Platform, DateTimeOffset Time) : Event(
     EventSet.Notice, SubType, Uuid, SelfId, Platform, Time)

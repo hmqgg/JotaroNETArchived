@@ -1,4 +1,4 @@
-﻿namespace Jotaro.OneBot.Events.Requests;
+﻿namespace Jotaro.OneBot.Events;
 
 public abstract record EventRequest
     (string SubType, string Uuid, string SelfId, string Platform, DateTimeOffset Time) : Event(EventSet.Request,

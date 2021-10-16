@@ -1,8 +1,4 @@
-﻿using Jotaro.OneBot.Events.Messages;
-using Jotaro.OneBot.Events.Metas;
-using Jotaro.OneBot.Events.Notices;
-using Jotaro.OneBot.Events.Requests;
-using Jotaro.Utils;
+﻿using Jotaro.Utils;
 
 namespace Jotaro.OneBot.Events;
 

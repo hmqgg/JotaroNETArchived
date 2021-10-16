@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Jotaro.OneBot.Events.Metas;
+namespace Jotaro.OneBot.Events;
 
 public record EventMeta(string SubType, string Uuid, string SelfId, string Platform, DateTimeOffset Time) : Event(
     EventSet.Meta, SubType, Uuid, SelfId, Platform, Time)

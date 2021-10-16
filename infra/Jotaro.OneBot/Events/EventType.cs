@@ -1,9 +1,5 @@
 ﻿using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
-using Jotaro.OneBot.Events.Messages;
-using Jotaro.OneBot.Events.Metas;
-using Jotaro.OneBot.Events.Notices;
-using Jotaro.OneBot.Events.Requests;
 
 namespace Jotaro.OneBot.Events;
 
