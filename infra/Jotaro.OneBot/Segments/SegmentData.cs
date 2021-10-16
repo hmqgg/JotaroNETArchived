@@ -15,21 +15,24 @@ public record SegmentUnknown : SegmentData;
 [MessagePackObject]
 public record SegmentText([property: JsonPropertyName("text"), Key("text")] string Text) : SegmentData;
 
-// TODO: Segment with `file_id`.
 [MessagePackObject]
-public record SegmentImage([property: JsonPropertyName("file_id"), Key("file_id")] string FileId) : SegmentData;
+public record SegmentImage([property: JsonPropertyName("file_id"), Key("file_id")] string FileId) : SegmentData,
+    ISegmentWithFileId;
 
 [MessagePackObject]
-public record SegmentVoice([property: JsonPropertyName("file_id"), Key("file_id")] string FileId) : SegmentData;
+public record SegmentVoice([property: JsonPropertyName("file_id"), Key("file_id")] string FileId) : SegmentData,
+    ISegmentWithFileId;
 
 [MessagePackObject]
-public record SegmentFile([property: JsonPropertyName("file_id"), Key("file_id")] string FileId) : SegmentData;
+public record SegmentFile([property: JsonPropertyName("file_id"), Key("file_id")] string FileId) : SegmentData,
+    ISegmentWithFileId;
+
+[MessagePackObject]
+public record SegmentVideo([property: JsonPropertyName("file_id"), Key("file_id")] string FileId) : SegmentData,
+    ISegmentWithFileId;
 
 [MessagePackObject]
 public record SegmentMention([property: JsonPropertyName("user_id"), Key("user_id")] string UserId) : SegmentData;
-
-[MessagePackObject]
-public record SegmentVideo([property: JsonPropertyName("file_id"), Key("file_id")] string FileId) : SegmentData;
 
 [MessagePackObject]
 public record SegmentLocation([property: JsonPropertyName("lat"), Key("lat")] double Lat,

@@ -61,6 +61,7 @@ public sealed class MsgPackSegmentFormatter : IMessagePackFormatter<Segment>
 
         if (data is SegmentData d)
         {
+            // BUG: `SegmentData` ignores `ExtensionData`.
             return new Segment(type, d);
         }
 
