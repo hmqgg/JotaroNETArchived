@@ -10,7 +10,7 @@ namespace Jotaro.OneBot.Segments;
 ///     <see href="https://1bot.dev/specs/message/" />.
 /// </summary>
 [JsonConverter(typeof(JsonEnumRecordKeyStringConverter<SegmentType, string>)),
- MessagePackFormatter(typeof(MsgPackEnumRecordKeyStringConverter<SegmentType, string>))]
+ MessagePackFormatter(typeof(MsgPackEnumRecordKeyStringFormatter<SegmentType, string>))]
 public record SegmentType : EnumRecord<SegmentType, string>
 {
     /// <summary>

@@ -3,7 +3,7 @@ using MessagePack.Formatters;
 
 namespace Jotaro.Utils.Converters;
 
-public sealed class MsgPackEnumRecordKeyStringConverter<TEnum, TKey> : IMessagePackFormatter<TEnum>
+public sealed class MsgPackEnumRecordKeyStringFormatter<TEnum, TKey> : IMessagePackFormatter<TEnum>
     where TEnum : EnumRecord<TEnum, TKey> where TKey : IEquatable<TKey>, IComparable<TKey>
 {
     public void Serialize(ref MessagePackWriter writer, TEnum value, MessagePackSerializerOptions options) =>

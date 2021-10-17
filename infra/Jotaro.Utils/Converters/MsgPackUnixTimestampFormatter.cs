@@ -3,7 +3,7 @@ using MessagePack.Formatters;
 
 namespace Jotaro.Utils.Converters;
 
-public class MsgPackUnixTimestampConverter : IMessagePackFormatter<DateTimeOffset>
+public class MsgPackUnixTimestampFormatter : IMessagePackFormatter<DateTimeOffset>
 {
     public void Serialize(ref MessagePackWriter writer, DateTimeOffset value, MessagePackSerializerOptions options) =>
         MessagePackSerializer.Serialize(ref writer, value.ToUnixTimeSeconds(), options);
